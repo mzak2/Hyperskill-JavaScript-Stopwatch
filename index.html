@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Stopwatch</title>
+    <script src="../../../../../Documents/Coding/Hyperskill/React_JavaScript/test.js"></script>
+    <style>
+        button{
+            color: white;
+            background: orange;
+        }
+
+        #watch{
+            text-align: center;
+            background: lightblue;
+            color: midnightblue;
+            padding: 20px;
+            margin: 20px;
+        }
+
+        body{
+            margin:0;
+        }
+
+    </style>
+</head>
+<body>
+<!-- STAGE1 -->
+<!-- objectives -->
+<!-- HTML elements for: title-h1, timer-p or span, start, stop, reset, lap buttons -->
+<div id="watch">
+    <h1>Simple Stopwatch</h1>
+    <p id="timer">00:00:00</p>
+    <button id="start">Start</button>
+    <button id="stop">Stop</button>
+    <button id="reset">Reset</button>
+    <button id="lap">Lap</button>
+    <ol id="laps"></ol>
+</div>
+<script>
+    let time = 0;
+    let interval;
+    let timer = document.getElementById("timer");
+    let start = document.getElementById("start");
+    let stop = document.getElementById("stop");
+    let reset = document.getElementById("reset");
+    let lap = document.getElementById("lap");
+
+    function startTimer(){
+        if(interval){
+            clearInterval(interval);
+        }
+
+        interval = setInterval(() => {
+            time += 10;
+            let milliseconds = Math.floor((time % 1000) / 10).toString().padStart(2, "0");
+            let seconds = Math.floor((time / 1000) % 60).toString().padStart(2, "0");
+            let minutes = Math.floor((time / (1000 * 60)) % 60).toString().padStart(2, "0");
+            timer.innerHTML =
+                `${minutes}:${seconds}:${milliseconds}`;
+        }, 10);
+    }
+
+    start.addEventListener('click', startTimer);
+    stop.addEventListener('click', () => clearInterval(interval));
+    reset.addEventListener('click', () => {
+        clearInterval(interval);
+        time = 0;
+        timer.innerHTML = "00:00:00";
+        laps.innerHTML = "";
+    });
+    lap.addEventListener('click', () => {
+        let currentLapTime = timer.innerHTML;
+        let lapElement = document.createElement("li");
+        lapElement.textContent = currentLapTime;
+        laps.appendChild(lapElement);
+    });
+
+</script>
+</body>
+</html>
